@@ -4,7 +4,12 @@ A native macOS menu bar app that shows which dev ports are **in use** vs **free*
 
 Built for the "wait, what's already on 3000?" problem when you're juggling several local apps at once.
 
-![menu bar](https://img.shields.io/badge/macOS-13%2B-black) ![swift](https://img.shields.io/badge/Swift-6-orange)
+![menu bar](https://img.shields.io/badge/macOS-13%2B-black) ![swift](https://img.shields.io/badge/Swift-6-orange) ![license](https://img.shields.io/badge/license-MIT-blue)
+
+<p align="center">
+  <img src="docs/pinned-and-inuse.png" width="49%" alt="Pinned and in-use ports with process icons" />
+  <img src="docs/available-ports.png" width="49%" alt="Available dev ports as pills" />
+</p>
 
 ## What it does
 
