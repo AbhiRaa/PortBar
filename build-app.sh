@@ -28,6 +28,11 @@ while [[ $# -gt 0 ]]; do
   esac
 done
 
+# Keep the dev build out of Spotlight so its contents aren't indexed.
+mkdir -p build
+touch build/.metadata_never_index
+LSREGISTER="/System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Support/lsregister"
+
 echo "▸ Compiling release binary…"
 swift build -c release >/dev/null
 
@@ -95,4 +100,11 @@ if [[ "$INSTALL" == true ]]; then
   rm -rf "/Applications/$APP.app"
   cp -R "$OUT" "/Applications/$APP.app"
   echo "✓ Installed. Launch from Spotlight or: open \"/Applications/$APP.app\""
+fi
+
+# Unregister the staging copy from Launch Services so it never shows up as a
+# duplicate in Launchpad/Spotlight. The file stays on disk (for zipping /
+# notarizing); the canonical app is the one you install to /Applications.
+if [[ -x "$LSREGISTER" ]]; then
+  "$LSREGISTER" -u "$PWD/$OUT" >/dev/null 2>&1 || true
 fi

@@ -21,6 +21,13 @@ struct PortCardView: View {
     private var allAddrs: String {
         Array(Set(procs.flatMap { $0.addresses })).sorted().joined(separator: ", ")
     }
+    private var bindsDisplay: String {
+        let a = allAddrs
+        if a.isEmpty { return "—" }
+        if a == "*" || a == "0.0.0.0" || a == "::" { return "\(a)  ·  all interfaces" }
+        if loopbackOnly { return "\(a)  ·  localhost only" }
+        return a
+    }
 
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
@@ -118,18 +125,16 @@ struct PortCardView: View {
 
             infoRow("command", primary?.commandLine ?? "—", copyable: true)
             infoRow("owner", primary?.user ?? "—")
-            infoRow("binds", allAddrs.isEmpty ? "—" : allAddrs)
-            if let up = primary?.uptime { infoRow("uptime", up) }
+            infoRow("binds", bindsDisplay)
             if let cwd = primary?.cwd { cwdRow(cwd) }
 
-            HStack(spacing: 8) {
+            FlowLayout(spacing: 6) {
+                tag(pinned ? "unpin" : "pin", accent: true, action: onTogglePin)
                 tag("copy port") { Clipboard.copy("\(port)") }
                 tag("copy pid") { Clipboard.copy(pidList) }
                 tag("copy url") { Clipboard.copy("http://localhost:\(port)") }
-                Spacer()
-                tag(pinned ? "unpin" : "pin", accent: true, action: onTogglePin)
             }
-            .padding(.top, 2)
+            .padding(.top, 4)
         }
     }
 
