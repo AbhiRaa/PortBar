@@ -15,7 +15,7 @@ set -euo pipefail
 cd "$(dirname "$0")"
 
 APP="PortBar"
-BUNDLE_ID="dev.abhinav.portbar"
+BUNDLE_ID="io.github.abhiraa.PortBar"
 OUT="build/$APP.app"
 INSTALL=false
 IDENTITY=""
